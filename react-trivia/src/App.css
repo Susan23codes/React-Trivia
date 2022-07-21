@@ -1,0 +1,23 @@
+.questions {
+  text-align: center;
+}
+
+.app {
+  text-align: center;
+}
+
+.categories {
+  text-align: center;
+}
+
+ul {
+  list-style: none;
+  padding-left: 0;
+}
+
+.answerButtons {
+  padding: 10px;
+  margin: 10px;
+  color: blue;
+  font-size: 30px;
+}
