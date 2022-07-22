@@ -9,6 +9,7 @@ function App() {
   const [currentCategory, setCurrentCategory] = useState('')
   // const [questionList, setQuestionList] = useState('')
 
+
   const handleCategoryClick = (category) => {
     setCurrentCategory(category.id)
   }
@@ -21,8 +22,6 @@ function App() {
         <Categories handleCategoryClick={handleCategoryClick}/> 
         : 
         <Questions categoryId={currentCategory}/>}
-      
-      
     </div>
   );
 }

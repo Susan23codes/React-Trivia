@@ -27,8 +27,9 @@ export default function Questions(props) {
         return txt.value;
     }
 
-    // this was found on a google search for shuffling an array
+    //this was found on a google search for shuffling an array
     function getShuffledArr(arr) {
+        console.log("Running shuffle")
         const newArr = arr.slice()
         for (let i = newArr.length - 1; i > 0; i--) {
             const rand = Math.floor(Math.random() * (i + 1));
@@ -41,7 +42,6 @@ export default function Questions(props) {
         let incorrectAnswers = questionList[currentQuestionIndex].incorrect_answers
         let correctAnswer = questionList[currentQuestionIndex].correct_answer
         let combinedAnswers = [...incorrectAnswers, correctAnswer]
-        // return combinedAnswers
         let shuffledArr = getShuffledArr(combinedAnswers)
         return shuffledArr
     }
@@ -85,7 +85,7 @@ export default function Questions(props) {
                             {getAnswerList().map(
                                 (answer, index) => <li key={index}>
                                     <button className="answerButtons" onClick={() => 
-                                        { handleUserAnswer(answer) }} 
+                                        {handleUserAnswer(answer)}} 
                                         disabled={answerMessage !== (null)}>{decodeHtml(answer)}</button>
                                 </li>
                             )}
