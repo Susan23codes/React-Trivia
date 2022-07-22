@@ -9,6 +9,8 @@ export default function Questions(props) {
     const [count, setCount] = useState(0)
     const [answerMessage, setAnswerMessage] = useState(null)
 
+    const correctMessage = "You got it right!"
+    const incorrectMessage = (correctAnswer) => `Sorry, that's not the correct answer! The correct answer was: ${correctAnswer}`
 
     useEffect(() => {
         axios.get(`https://opentdb.com/api.php?amount=10&category=${categoryId}&type=multiple`)
@@ -46,18 +48,16 @@ export default function Questions(props) {
 
     function handleUserAnswer(answer) {
         let correctAnswer = questionList[currentQuestionIndex].correct_answer
-        if (answer === questionList[currentQuestionIndex].correct_answer) {
+        if (answer === correctAnswer) {
             console.log("Yay!")
-            alert("You got it right!")
-            {setCount(count + 1)}
+            setAnswerMessage(correctMessage)
+            setCount(count + 1)
         } else {
             console.log("Boo!")
-            alert(`Sorry, that's not the correct answer! The correct answer was: ${correctAnswer}`)
+            setAnswerMessage(incorrectMessage(correctAnswer))
         }
-        { setCurrentQuestionIndex(currentQuestionIndex + 1) }
+        //  setCurrentQuestionIndex(currentQuestionIndex + 1) 
     }
-
-
 
     return (
         <>
@@ -68,23 +68,40 @@ export default function Questions(props) {
                 )} */}
                 {questionList &&
                     <>
-                        <h1>Question {currentQuestionIndex + 1}:<br />
-                            {decodeHtml(questionList[currentQuestionIndex].question)}</h1>
+                        <h1 className = "singleQuestion">Question {currentQuestionIndex + 1}:</h1><br />
+                        {/* <h4>{answerMessage}</h4> */}
+                        <h3>{answerMessage === correctMessage ? (
+                            <>
+                                {decodeHtml(answerMessage)}
+                                <Confetti />
+                            </>
+                        ) : (
+                            decodeHtml(answerMessage)
+                        )
+                        }</h3>
+                        <br />
+                            <h1>{decodeHtml(questionList[currentQuestionIndex].question)}</h1>
                         <ul>
                             {getAnswerList().map(
                                 (answer, index) => <li key={index}>
                                     <button className="answerButtons" onClick={() => 
-                                        { handleUserAnswer(answer) }}>{decodeHtml(answer)}</button>
+                                        { handleUserAnswer(answer) }} 
+                                        disabled={answerMessage !== (null)}>{decodeHtml(answer)}</button>
                                 </li>
                             )}
                         </ul>
                         <br />
-                        <button>You have {count} right answers so far!</button>
+                        <h2>{count === 1 ? (
+                            `You have ${count} right answer so far!`
+                        ) : (
+                            `You have ${count} right answers so far!`
+                        )
+                            }</h2>
                     </>
                 }
-                {/* <br />
-                <button onClick={() => { setCurrentQuestionIndex(currentQuestionIndex + 1) }}
-                > Next Question!</button> */}
+                <br />
+                <button  onClick={() => { setCurrentQuestionIndex(currentQuestionIndex + 1); setAnswerMessage(null)}}
+                > Next Question!</button>
             </div>
         </>
     )

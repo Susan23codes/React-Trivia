@@ -6,6 +6,11 @@
   text-align: center;
 }
 
+.singleQuestion {
+  margin-bottom: 20px;
+  color: blue;
+}
+
 .categories {
   text-align: center;
 }
