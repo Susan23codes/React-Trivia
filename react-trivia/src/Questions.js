@@ -1,13 +1,21 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Confetti from 'react-confetti'
+import Skeleton from 'react-loading-skeleton'
+import 'react-loading-skeleton/dist/skeleton.css'
+
 
 export default function Questions(props) {
-    const { categoryId } = props
+    const { 
+        categoryId,
+        setCurrentCategory,
+        count,
+        setCount,
+        setGameOver} = props
     const [questionList, setQuestionList] = useState(null)
     const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0)
-    const [count, setCount] = useState(0)
     const [answerMessage, setAnswerMessage] = useState(null)
+    
 
     const correctMessage = "You got it right!"
     const incorrectMessage = (correctAnswer) => `Sorry, that's not the correct answer! The correct answer was: ${correctAnswer}`
@@ -16,8 +24,12 @@ export default function Questions(props) {
         axios.get(`https://opentdb.com/api.php?amount=10&category=${categoryId}&type=multiple`)
             .then(res => {
                 const results = res.data.results
-                // console.log(results)
+                for (let question of results) {
+                    let shuffledAnswers = getShuffledAnswerList(question)
+                    question["shuffled"] = shuffledAnswers
+                }            
                 setQuestionList(results)
+                // console.log(results)
             })
     }, [categoryId])
 
@@ -38,9 +50,9 @@ export default function Questions(props) {
         return newArr
     }
 
-    function getAnswerList() {
-        let incorrectAnswers = questionList[currentQuestionIndex].incorrect_answers
-        let correctAnswer = questionList[currentQuestionIndex].correct_answer
+    function getShuffledAnswerList(question) {
+        let incorrectAnswers = question.incorrect_answers
+        let correctAnswer = question.correct_answer
         let combinedAnswers = [...incorrectAnswers, correctAnswer]
         let shuffledArr = getShuffledArr(combinedAnswers)
         return shuffledArr
@@ -56,20 +68,17 @@ export default function Questions(props) {
             console.log("Boo!")
             setAnswerMessage(incorrectMessage(correctAnswer))
         }
-        //  setCurrentQuestionIndex(currentQuestionIndex + 1) 
     }
+    
 
     return (
         <>
             <div className="questions">
-                {/* {questionList && questionList.map(
-            (questionMetadata, index) => 
-                <p key={index}>{questionMetadata.question}</p>
-                )} */}
+                {/* not sure why Skeleton isn't working */}
+                {!questionList && <Skeleton />}
                 {questionList &&
                     <>
-                        <h1 className = "singleQuestion">Question {currentQuestionIndex + 1}:</h1><br />
-                        {/* <h4>{answerMessage}</h4> */}
+                        <h1 className = "single_question">Question {currentQuestionIndex + 1}:</h1><br />
                         <h3>{answerMessage === correctMessage ? (
                             <>
                                 {decodeHtml(answerMessage)}
@@ -82,9 +91,9 @@ export default function Questions(props) {
                         <br />
                             <h1>{decodeHtml(questionList[currentQuestionIndex].question)}</h1>
                         <ul>
-                            {getAnswerList().map(
+                            {questionList[currentQuestionIndex].shuffled.map(
                                 (answer, index) => <li key={index}>
-                                    <button className="answerButtons" onClick={() => 
+                                    <button className="answer_buttons" onClick={() => 
                                         {handleUserAnswer(answer)}} 
                                         disabled={answerMessage !== (null)}>{decodeHtml(answer)}</button>
                                 </li>
@@ -100,10 +109,17 @@ export default function Questions(props) {
                     </>
                 }
                 <br />
-                <button  onClick={() => { setCurrentQuestionIndex(currentQuestionIndex + 1); setAnswerMessage(null)}}
+                    {currentQuestionIndex !== 9 ? (
+                <button className='next_question_button' 
+                    onClick={() => { setCurrentQuestionIndex(currentQuestionIndex + 1); 
+                    setAnswerMessage(null)}}
                 > Next Question!</button>
+                ) : ( 
+                    <button className='see_score_button' onClick={() => {setGameOver(true)}}>See your score!</button>
+                    )
+                    }
+                <button className='end_game_button' onClick={() => {setCurrentCategory('')}}>End Game</button>
             </div>
         </>
     )
-
-}
+            }

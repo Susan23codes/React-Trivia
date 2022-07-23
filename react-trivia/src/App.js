@@ -1,14 +1,15 @@
 import './App.css';
 import Categories from './Categories';
 import Questions from './Questions';
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import GameOver from './GameOver';
+import React, { useState } from 'react';
+
+
 
 function App() {
- // const [categoryList, setCategoryList] = useState([])
   const [currentCategory, setCurrentCategory] = useState('')
-  // const [questionList, setQuestionList] = useState('')
-
+  const [gameOver, setGameOver] = useState(false)
+  const [count, setCount] = useState(0)
 
   const handleCategoryClick = (category) => {
     setCurrentCategory(category.id)
@@ -17,13 +18,28 @@ function App() {
 
   return (
     <div className="App">
-      Category ID: {currentCategory}
-      { !currentCategory ?  
-        <Categories handleCategoryClick={handleCategoryClick}/> 
+      <p>Category ID: {currentCategory}</p>
+       {currentCategory ?  
+        (gameOver === true ?
+          <GameOver 
+          setGameOver={setGameOver} 
+          setCurrentCategory={setCurrentCategory}
+          count={count}
+          setCount={setCount}/>
         : 
-        <Questions categoryId={currentCategory}/>}
+       <Questions 
+          count={count}
+          setCount={setCount}
+          categoryId={currentCategory}
+          setCurrentCategory={setCurrentCategory}
+          gameOver={gameOver}
+          setGameOver={setGameOver}
+        />)
+        : 
+        <Categories handleCategoryClick={handleCategoryClick}/>     
+       }
     </div>
-  );
+  )
 }
 
 export default App;

@@ -6,8 +6,8 @@
   text-align: center;
 }
 
-.singleQuestion {
-  margin-bottom: 20px;
+.single_question {
+  /* margin-bottom: 5px; */
   color: blue;
 }
 
@@ -20,9 +20,34 @@ ul {
   padding-left: 0;
 }
 
-.answerButtons {
+.answer_buttons {
   padding: 10px;
-  margin: 10px;
+  margin: 5px;
   color: blue;
   font-size: 30px;
+}
+
+.next_question_button {
+  padding: 10px;
+  margin: 5px;
+  color: blue;
+  font-size: 30px;
+}
+
+.end_game_button {
+  padding: 10px;
+  margin: 5px;
+  color: blue;
+  font-size: 30px;
+}
+
+.see_score_button {
+  padding: 10px;
+  margin: 5px;
+  color: blue;
+  font-size: 30px;
+}
+
+.gameover_page {
+  text-align: center;
 }
