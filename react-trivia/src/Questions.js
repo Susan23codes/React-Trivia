@@ -74,8 +74,8 @@ export default function Questions(props) {
         <>
             <div className="questions">
                 {!questionList && <div className='loader'>
-                    <BallTriangle  height = "450"
-                    width = "400" radius = "8"/>
+                    <BallTriangle  height = "350"
+                    width = "350" radius = "8"/>
             </div>}
                 {questionList &&
                     <>
