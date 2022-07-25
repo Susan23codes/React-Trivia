@@ -1,3 +1,7 @@
+html {
+  background-color:rgb(249, 234, 217)
+}
+
 .questions {
   text-align: center;
 }
@@ -25,6 +29,7 @@ ul {
   margin: 5px;
   color: blue;
   font-size: 30px;
+  border-radius: 10%;
 }
 
 .next_question_button {
@@ -50,4 +55,8 @@ ul {
 
 .gameover_page {
   text-align: center;
+}
+
+.loader {
+  padding-left: 300px;
 }

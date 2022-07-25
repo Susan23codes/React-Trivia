@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Confetti from 'react-confetti'
-import Skeleton from 'react-loading-skeleton'
-import 'react-loading-skeleton/dist/skeleton.css'
+import { BallTriangle} from  'react-loader-spinner'
 
 
 export default function Questions(props) {
@@ -74,8 +73,10 @@ export default function Questions(props) {
     return (
         <>
             <div className="questions">
-                {/* not sure why Skeleton isn't working */}
-                {!questionList && <Skeleton />}
+                {!questionList && <div className='loader'>
+                    <BallTriangle  height = "450"
+                    width = "400" radius = "8"/>
+            </div>}
                 {questionList &&
                     <>
                         <h1 className = "single_question">Question {currentQuestionIndex + 1}:</h1><br />
@@ -106,19 +107,19 @@ export default function Questions(props) {
                             `You have ${count} right answers so far!`
                         )
                             }</h2>
-                    </>
-                }
                 <br />
                     {currentQuestionIndex !== 9 ? (
-                <button className='next_question_button' 
-                    onClick={() => { setCurrentQuestionIndex(currentQuestionIndex + 1); 
-                    setAnswerMessage(null)}}
-                > Next Question!</button>
-                ) : ( 
-                    <button className='see_score_button' onClick={() => {setGameOver(true)}}>See your score!</button>
-                    )
+                        <button className='next_question_button' 
+                        onClick={() => { setCurrentQuestionIndex(currentQuestionIndex + 1); 
+                            setAnswerMessage(null)}}
+                            > Next Question!</button>
+                            ) : ( 
+                                <button className='see_score_button' onClick={() => {setGameOver(true)}}>See your score!</button>
+                                )
                     }
                 <button className='end_game_button' onClick={() => {setCurrentCategory('')}}>End Game</button>
+                                </>
+                            }
             </div>
         </>
     )

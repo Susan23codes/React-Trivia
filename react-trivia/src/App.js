@@ -18,7 +18,7 @@ function App() {
 
   return (
     <div className="App">
-      <p>Category ID: {currentCategory}</p>
+      {/* <p>Category ID: {currentCategory}</p> */}
        {currentCategory ?  
         (gameOver === true ?
           <GameOver 

@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import Skeleton from 'react-loading-skeleton'
-import 'react-loading-skeleton/dist/skeleton.css'
+import { BallTriangle } from  'react-loader-spinner'
+
 
 
 export default function Categories(props) { 
     const { handleCategoryClick } = props
-    const [categoryList, setCategoryList] = useState([])
+    const [categoryList, setCategoryList] = useState(null)
 
     useEffect(() => {
         axios.get('https://opentdb.com/api_category.php')
@@ -18,14 +18,18 @@ export default function Categories(props) {
 
     return (
         <>
-        {/* not sure why Skeleton isn't working */}
-        {!categoryList && <Skeleton />}
+        {!categoryList && 
+            <div className='loader'><BallTriangle  height = "450"
+                    width = "400" radius = "8"/>
+            </div>}
+        {categoryList &&    
             <div className="categories">
                 <h1>Click on a Category to Get Started!</h1>
-                {categoryList && categoryList.map((category, index) => (
+                {categoryList.map((category, index) => (
                     <h3 key={index} onClick={() => handleCategoryClick(category)}>{category.name}</h3>
                 ))}
             </div>
+        }
         </>
     )
 
